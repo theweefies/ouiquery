@@ -33026,3 +33026,18 @@ ouilookup_vals = {
 "FCFFAA":"IEEE Registration Authority",
 "":None
 }
+
+if(__name__ == "__main__"):
+    script, arg = sys.argv
+
+    if(os.path.isfile(arg)):
+        with open(arg, 'r') as fh:
+            with open(f"{os.path.splitext(arg)[0]}_with_OUIs{os.path.splitext(arg)[1]}", 'w') as wfh:
+                for line in fh:
+                    mac = line[:17]
+                    rest = line[17:].strip('\n')
+                    manufacturer = ouiQuery(mac)
+                    wfh.write(f"{mac}{rest} {manufacturer}\n")
+    else:
+        manufacturer = ouiQuery(arg)
+        print(manufacturer)
